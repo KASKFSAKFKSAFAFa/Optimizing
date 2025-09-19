@@ -27,4 +27,64 @@ return function(enable)
         Lighting.ColorShift_Top = Color3.new(0,0,0)
         Lighting.EnvironmentDiffuseScale = 0
         Lighting.EnvironmentSpecularScale = 0
-        Ligh
+        Lighting.GlobalShadows = false
+        Lighting.OutdoorAmbient = Color3.new(0,0,0)
+        Lighting.ShadowSoftness = 0
+        Lighting.Technology = Enum.Technology.Compatibility
+        Lighting.FogEnd = 50
+        settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
+        if setpriority then setpriority(20) end
+        if setfflag then
+            setfflag("AbuseReportScreenshot", "False")
+            setfflag("AbuseReportScreenshotPercentage", "0")
+            setfflag("DFIntTaskSchedulerTargetFps", "99999")
+            setfflag("UseOptimizedNetworkCompression", "True")
+            setfflag("UseFastPing", "True")
+            setfflag("UseHighBandwidthMode", "True")
+            setfflag("NetworkCompressionLevel", "3")
+            setfflag("FastNetworkReplication", "True")
+        end
+        for _, v in pairs(workspace:GetDescendants()) do
+            if v:IsA("Part") or v:IsA("UnionOperation") or v:IsA("MeshPart") then
+                v.Material = Enum.Material.SmoothPlastic
+                v.Reflectance = 0
+                v.Color = Color3.new(0,0,0)
+            elseif v:IsA("Light") then
+                v.Enabled = false
+            elseif v:IsA("ParticleEmitter") or v:IsA("Trail") or v:IsA("Beam") then
+                v.Enabled = false
+            end
+        end
+        NetworkClient:SetOutgoingKBPSLimit(50000)
+        NetworkClient.IncomingReplicationLag = 0
+        RunService.PhysicsSteppingMethod = Enum.PhysicsSteppingMethod.Fixed
+        if not _G._memoryLeakLoop then
+            _G._memoryLeakLoop = task.spawn(function()
+                while enable do
+                    collectgarbage("collect")
+                    task.wait(10)
+                end
+            end)
+        end
+    else
+        if _G._originalSettings then
+            local o = _G._originalSettings
+            Lighting.Ambient = o.Lighting.Ambient
+            Lighting.Brightness = o.Lighting.Brightness
+            Lighting.ColorShift_Bottom = o.Lighting.ColorShift_Bottom
+            Lighting.ColorShift_Top = o.Lighting.ColorShift_Top
+            Lighting.EnvironmentDiffuseScale = o.Lighting.EnvironmentDiffuseScale
+            Lighting.EnvironmentSpecularScale = o.Lighting.EnvironmentSpecularScale
+            Lighting.GlobalShadows = o.Lighting.GlobalShadows
+            Lighting.OutdoorAmbient = o.Lighting.OutdoorAmbient
+            Lighting.ShadowSoftness = o.Lighting.ShadowSoftness
+            Lighting.Technology = o.Lighting.Technology
+            Lighting.FogEnd = o.Lighting.FogEnd
+            settings().Rendering.QualityLevel = o.RenderingQuality
+            _G._originalSettings = nil
+        end
+        if _G._memoryLeakLoop then
+            _G._memoryLeakLoop = nil
+        end
+    end
+end
