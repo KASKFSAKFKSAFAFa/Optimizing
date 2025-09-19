@@ -4,84 +4,92 @@ return function(enable)
     local NetworkClient = game:GetService("NetworkClient")
     if enable then
         if not _G._originalSettings then
-            _G._originalSettings = {
-                Lighting = {
-                    Ambient = Lighting.Ambient,
-                    Brightness = Lighting.Brightness,
-                    ColorShift_Bottom = Lighting.ColorShift_Bottom,
-                    ColorShift_Top = Lighting.ColorShift_Top,
-                    EnvironmentDiffuseScale = Lighting.EnvironmentDiffuseScale,
-                    EnvironmentSpecularScale = Lighting.EnvironmentSpecularScale,
-                    GlobalShadows = Lighting.GlobalShadows,
-                    OutdoorAmbient = Lighting.OutdoorAmbient,
-                    ShadowSoftness = Lighting.ShadowSoftness,
-                    Technology = Lighting.Technology,
-                    FogEnd = Lighting.FogEnd,
-                },
-                RenderingQuality = settings().Rendering.QualityLevel,
-            }
+            pcall(function()
+                _G._originalSettings = {
+                    Lighting = {
+                        Ambient = Lighting.Ambient,
+                        Brightness = Lighting.Brightness,
+                        ColorShift_Bottom = Lighting.ColorShift_Bottom,
+                        ColorShift_Top = Lighting.ColorShift_Top,
+                        EnvironmentDiffuseScale = Lighting.EnvironmentDiffuseScale,
+                        EnvironmentSpecularScale = Lighting.EnvironmentSpecularScale,
+                        GlobalShadows = Lighting.GlobalShadows,
+                        OutdoorAmbient = Lighting.OutdoorAmbient,
+                        ShadowSoftness = Lighting.ShadowSoftness,
+                        Technology = Lighting.Technology,
+                        FogEnd = Lighting.FogEnd,
+                    },
+                    RenderingQuality = settings().Rendering.QualityLevel,
+                }
+            end)
         end
-        Lighting.Ambient = Color3.new(0,0,0)
-        Lighting.Brightness = 0.01
-        Lighting.ColorShift_Bottom = Color3.new(0,0,0)
-        Lighting.ColorShift_Top = Color3.new(0,0,0)
-        Lighting.EnvironmentDiffuseScale = 0
-        Lighting.EnvironmentSpecularScale = 0
-        Lighting.GlobalShadows = false
-        Lighting.OutdoorAmbient = Color3.new(0,0,0)
-        Lighting.ShadowSoftness = 0
-        Lighting.Technology = Enum.Technology.Compatibility
-        Lighting.FogEnd = 50
-        settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
-        if setpriority then setpriority(20) end
-        if setfflag then
-            setfflag("AbuseReportScreenshot", "False")
-            setfflag("AbuseReportScreenshotPercentage", "0")
-            setfflag("DFIntTaskSchedulerTargetFps", "99999")
-            setfflag("UseOptimizedNetworkCompression", "True")
-            setfflag("UseFastPing", "True")
-            setfflag("UseHighBandwidthMode", "True")
-            setfflag("NetworkCompressionLevel", "3")
-            setfflag("FastNetworkReplication", "True")
-        end
-        for _, v in pairs(workspace:GetDescendants()) do
-            if v:IsA("Part") or v:IsA("UnionOperation") or v:IsA("MeshPart") then
-                v.Material = Enum.Material.SmoothPlastic
-                v.Reflectance = 0
-                v.Color = Color3.new(0,0,0)
-            elseif v:IsA("Light") then
-                v.Enabled = false
-            elseif v:IsA("ParticleEmitter") or v:IsA("Trail") or v:IsA("Beam") then
-                v.Enabled = false
+        pcall(function() Lighting.Ambient = Color3.new(0,0,0) end)
+        pcall(function() Lighting.Brightness = 0.01 end)
+        pcall(function() Lighting.ColorShift_Bottom = Color3.new(0,0,0) end)
+        pcall(function() Lighting.ColorShift_Top = Color3.new(0,0,0) end)
+        pcall(function() Lighting.EnvironmentDiffuseScale = 0 end)
+        pcall(function() Lighting.EnvironmentSpecularScale = 0 end)
+        pcall(function() Lighting.GlobalShadows = false end)
+        pcall(function() Lighting.OutdoorAmbient = Color3.new(0,0,0) end)
+        pcall(function() Lighting.ShadowSoftness = 0 end)
+        pcall(function() Lighting.Technology = Enum.Technology.Compatibility end)
+        pcall(function() Lighting.FogEnd = 50 end)
+        pcall(function() settings().Rendering.QualityLevel = Enum.QualityLevel.Level01 end)
+        pcall(function() if setpriority then setpriority(20) end end)
+        pcall(function()
+            if setfflag then
+                setfflag("AbuseReportScreenshot", "False")
+                setfflag("AbuseReportScreenshotPercentage", "0")
+                setfflag("DFIntTaskSchedulerTargetFps", "99999")
+                setfflag("UseOptimizedNetworkCompression", "True")
+                setfflag("UseFastPing", "True")
+                setfflag("UseHighBandwidthMode", "True")
+                setfflag("NetworkCompressionLevel", "3")
+                setfflag("FastNetworkReplication", "True")
             end
-        end
-        NetworkClient:SetOutgoingKBPSLimit(50000)
-        NetworkClient.IncomingReplicationLag = 0
-        RunService.PhysicsSteppingMethod = Enum.PhysicsSteppingMethod.Fixed
+        end)
+        pcall(function()
+            for _, v in pairs(workspace:GetDescendants()) do
+                if v:IsA("Part") or v:IsA("UnionOperation") or v:IsA("MeshPart") then
+                    pcall(function() v.Material = Enum.Material.SmoothPlastic end)
+                    pcall(function() v.Reflectance = 0 end)
+                    pcall(function() v.Color = Color3.new(0,0,0) end)
+                elseif v:IsA("Light") then
+                    pcall(function() v.Enabled = false end)
+                elseif v:IsA("ParticleEmitter") or v:IsA("Trail") or v:IsA("Beam") then
+                    pcall(function() v.Enabled = false end)
+                end
+            end
+        end)
+        pcall(function() NetworkClient:SetOutgoingKBPSLimit(50000) end)
+        pcall(function() NetworkClient.IncomingReplicationLag = 0 end)
+        pcall(function() RunService.PhysicsSteppingMethod = Enum.PhysicsSteppingMethod.Fixed end)
         if not _G._memoryLeakLoop then
             _G._memoryLeakLoop = task.spawn(function()
                 while enable do
-                    collectgarbage("collect")
+                    pcall(function() collectgarbage("collect") end)
                     task.wait(10)
                 end
             end)
         end
     else
         if _G._originalSettings then
-            local o = _G._originalSettings
-            Lighting.Ambient = o.Lighting.Ambient
-            Lighting.Brightness = o.Lighting.Brightness
-            Lighting.ColorShift_Bottom = o.Lighting.ColorShift_Bottom
-            Lighting.ColorShift_Top = o.Lighting.ColorShift_Top
-            Lighting.EnvironmentDiffuseScale = o.Lighting.EnvironmentDiffuseScale
-            Lighting.EnvironmentSpecularScale = o.Lighting.EnvironmentSpecularScale
-            Lighting.GlobalShadows = o.Lighting.GlobalShadows
-            Lighting.OutdoorAmbient = o.Lighting.OutdoorAmbient
-            Lighting.ShadowSoftness = o.Lighting.ShadowSoftness
-            Lighting.Technology = o.Lighting.Technology
-            Lighting.FogEnd = o.Lighting.FogEnd
-            settings().Rendering.QualityLevel = o.RenderingQuality
-            _G._originalSettings = nil
+            pcall(function()
+                local o = _G._originalSettings
+                Lighting.Ambient = o.Lighting.Ambient
+                Lighting.Brightness = o.Lighting.Brightness
+                Lighting.ColorShift_Bottom = o.Lighting.ColorShift_Bottom
+                Lighting.ColorShift_Top = o.Lighting.ColorShift_Top
+                Lighting.EnvironmentDiffuseScale = o.Lighting.EnvironmentDiffuseScale
+                Lighting.EnvironmentSpecularScale = o.Lighting.EnvironmentSpecularScale
+                Lighting.GlobalShadows = o.Lighting.GlobalShadows
+                Lighting.OutdoorAmbient = o.Lighting.OutdoorAmbient
+                Lighting.ShadowSoftness = o.Lighting.ShadowSoftness
+                Lighting.Technology = o.Lighting.Technology
+                Lighting.FogEnd = o.Lighting.FogEnd
+                settings().Rendering.QualityLevel = o.RenderingQuality
+                _G._originalSettings = nil
+            end)
         end
         if _G._memoryLeakLoop then
             _G._memoryLeakLoop = nil
