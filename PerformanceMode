@@ -1,0 +1,30 @@
+return function(enable)
+    local Lighting = game:GetService("Lighting")
+    local RunService = game:GetService("RunService")
+    local NetworkClient = game:GetService("NetworkClient")
+    if enable then
+        if not _G._originalSettings then
+            _G._originalSettings = {
+                Lighting = {
+                    Ambient = Lighting.Ambient,
+                    Brightness = Lighting.Brightness,
+                    ColorShift_Bottom = Lighting.ColorShift_Bottom,
+                    ColorShift_Top = Lighting.ColorShift_Top,
+                    EnvironmentDiffuseScale = Lighting.EnvironmentDiffuseScale,
+                    EnvironmentSpecularScale = Lighting.EnvironmentSpecularScale,
+                    GlobalShadows = Lighting.GlobalShadows,
+                    OutdoorAmbient = Lighting.OutdoorAmbient,
+                    ShadowSoftness = Lighting.ShadowSoftness,
+                    Technology = Lighting.Technology,
+                    FogEnd = Lighting.FogEnd,
+                },
+                RenderingQuality = settings().Rendering.QualityLevel,
+            }
+        end
+        Lighting.Ambient = Color3.new(0,0,0)
+        Lighting.Brightness = 0.01
+        Lighting.ColorShift_Bottom = Color3.new(0,0,0)
+        Lighting.ColorShift_Top = Color3.new(0,0,0)
+        Lighting.EnvironmentDiffuseScale = 0
+        Lighting.EnvironmentSpecularScale = 0
+        Ligh
